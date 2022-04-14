@@ -11,6 +11,7 @@ const Dashboard = () => {
     const [fetchFlag, setFetchFlag] = useState(false);
 
     const changeFetchFlag = () => {
+        console.log("changing the flag "+fetchFlag)
         setFetchFlag(!fetchFlag);
     }
 

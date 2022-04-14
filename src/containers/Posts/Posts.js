@@ -30,18 +30,7 @@ const Posts = (props) => {
     }, [props.fetchFlag])
 
     const postsList = posts.map(p => {
-        return (p.id == 0 ?
-            <div>
-                <Post
-                    title={p.title}
-                    author={p.author}
-                    key={p.id}
-                    setSelectId={() => props.setSelectId(p.id)}
-                />
-                <ChangeTitle onChange={props.onChange} changeTitleBtn={props.changeTitleBtn} />
-
-            </div>
-            : <Post
+        return ( <Post
                 title={p.title}
                 author={p.author}
                 key={p.id}
