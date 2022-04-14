@@ -34,4 +34,5 @@ code {
 }
 .Posts{
   display: flex;
+  justify-content: center;
 }
