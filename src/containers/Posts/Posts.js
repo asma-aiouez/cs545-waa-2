@@ -1,14 +1,16 @@
 import axios from "axios";
 import { useContext } from "react";
 import { useEffect, useState } from "react";
-import { Selected } from "../../components/store/Selected"; 
+import { Selected } from "../../components/store/Selected";
 import Post from "../../components/Post/Post";
+import { Link, useParams } from "react-router-dom";
+import PostDetails from "../../components/PostDetails/PostDetails";
 
 // takes in posts list
 // 
 const Posts = (props) => {
 
-    const {fetchFlag} = useContext(Selected);
+    const params = useParams();
     const [posts, setPosts] = useState(
         [
             { id: 111, title: "Happines", author: "Johns" },
@@ -29,18 +31,29 @@ const Posts = (props) => {
 
     useEffect(() => {
         fetchPosts();
-    }, [fetchFlag])
+    }, [])
 
     const postsList = posts.map(p => {
-        return (<Post
-                title={p.title}
-                author={p.author}
-                key={p.id}
-                id={p.id}
+        return (
+            <Link to={`${p.id}`} key={`${p.id}`}>
+                <Post
+                    title={p.title}
+                    author={p.author}
+                    key={p.id}
+                    id={p.id}
                 //setSelectId={() => props.setSelectId(p.id)}
-            />);
+                />
+            </Link>);
     })
-    return postsList;
+    return (
+        <div>
+            <div className="Posts">
+                {postsList}
+            </div>
+            <PostDetails />
+        </div>
+
+    );
 }
 
 export default Posts;

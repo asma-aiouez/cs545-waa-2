@@ -1,17 +1,16 @@
+import { BrowserRouter } from 'react-router-dom';
 import './App.css';
-import Dashboard from './containers/Dashboard';
+import Dashboard from './pages/Dashboard';
 
 function App() {
-
-
-
-
   return (
-    <div className="App">
-        <h1> Lab 9 </h1>
+    <BrowserRouter>
+      <div className="App">
+        <h1> Lab 10 </h1>
         <Dashboard />
-      
-    </div>
+      </div>
+    </BrowserRouter>
+
   );
 }
 

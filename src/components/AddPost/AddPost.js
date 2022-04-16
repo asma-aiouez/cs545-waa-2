@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { useContext, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Selected } from '../store/Selected';
 import './AddPost.css';
 
 const AddPost = (props) => {
 
-    const { changeFetchFlag } = useContext(Selected);
-
+    const navigate = useNavigate()
     const newPostForm = useRef();
 
     
@@ -23,8 +23,7 @@ const AddPost = (props) => {
         console.log("new post "+ post)
         axios.post("http://localhost:3030/api/v1/posts", post)
             .then(reponse => {
-                // need a flag
-                changeFetchFlag();
+                navigate("/")
             })
             .catch(err => {
                 console.log(err.message)
