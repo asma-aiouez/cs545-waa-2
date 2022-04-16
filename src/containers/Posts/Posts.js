@@ -1,12 +1,14 @@
 import axios from "axios";
+import { useContext } from "react";
 import { useEffect, useState } from "react";
-import ChangeTitle from "../../components/ChangeTitle/ChangeTitle";
+import { Selected } from "../../components/store/Selected"; 
 import Post from "../../components/Post/Post";
 
 // takes in posts list
 // 
 const Posts = (props) => {
 
+    const {fetchFlag} = useContext(Selected);
     const [posts, setPosts] = useState(
         [
             { id: 111, title: "Happines", author: "Johns" },
@@ -27,25 +29,15 @@ const Posts = (props) => {
 
     useEffect(() => {
         fetchPosts();
-    }, [props.fetchFlag])
+    }, [fetchFlag])
 
     const postsList = posts.map(p => {
-        return (p.id == 0 ?
-            <div>
-                <Post
-                    title={p.title}
-                    author={p.author}
-                    key={p.id}
-                    setSelectId={() => props.setSelectId(p.id)}
-                />
-                <ChangeTitle onChange={props.onChange} changeTitleBtn={props.changeTitleBtn} />
-
-            </div>
-            : <Post
+        return (<Post
                 title={p.title}
                 author={p.author}
                 key={p.id}
-                setSelectId={() => props.setSelectId(p.id)}
+                id={p.id}
+                //setSelectId={() => props.setSelectId(p.id)}
             />);
     })
     return postsList;

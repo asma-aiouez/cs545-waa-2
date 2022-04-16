@@ -1,28 +1,29 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { Selected } from "../store/Selected";
 
 
-const PostDetails = (props) => {
+const PostDetails = () => {
 
     const [postDetail, setPostDetail] = useState({});
+    const {setSelectId, selectIdState, changeFetchFlag} = useContext(Selected);
 
 
     useEffect(() => {
-        axios.get("http://localhost:3030/api/v1/posts/" + props.id)
+        axios.get("http://localhost:3030/api/v1/posts/" + selectIdState)
             .then(response => {
                 setPostDetail(response.data)
             })
             .catch(err => {
                 console.log(err.message)
             })
-    }, [props.id])
+    }, [selectIdState])
 
     const deleteHandler = (id) => {
         axios.delete("http://localhost:3030/api/v1/posts/" + id)
             .then(response => {
-                //setPostDetail(response.data)
-                console.log("deleted")
-                props.changeFetchFlag();
+                setSelectId(0);
+                changeFetchFlag();
                 
             })
             .catch(err => {
@@ -32,7 +33,7 @@ const PostDetails = (props) => {
     }
 
     let postDetailsDisplay = null;
-    if (props.id !== 0) {
+    if (selectIdState !== 0) {
         postDetailsDisplay = (
             <div>
                 <div className="Content PostDetails">
@@ -45,7 +46,7 @@ const PostDetails = (props) => {
                         {postDetail.content}
                     </div>
                     <button onClick={() => { }}> Edit</button>
-                    <button onClick={() => {deleteHandler(props.id)}}> Delete</button>
+                    <button onClick={() => {deleteHandler(selectIdState)}}> Delete</button>
                 </div>
             </div>
 

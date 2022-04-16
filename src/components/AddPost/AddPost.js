@@ -1,64 +1,52 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useContext, useRef, useState } from 'react';
+import { Selected } from '../store/Selected';
 import './AddPost.css';
 
 const AddPost = (props) => {
 
-    const [newPost, SetNewPost] = useState(
-        {
-            title:"",
-            author:"",
-            content:""
+    const { changeFetchFlag } = useContext(Selected);
+
+    const newPostForm = useRef();
+
+    
+
+    const addPostHandler = (e) => {
+        e.preventDefault();
+        const form = newPostForm.current;
+        const post = {
+            title: form['title'].value,
+            author: form['author'].value,
+            content: form['content'].value
         }
-    );
 
-    const onChange = (event) => {
-        const copy = {... newPost}
-        copy[event.target.name] = event.target.value
-        SetNewPost(copy);
-    }
-
-    const addPostHandler = () => {
-        axios.post("http://localhost:3030/api/v1/posts", newPost)
-        .then(reponse => {
-            // need a flag
-            props.changeFetchFlag();
-            console.log("adding a post "+newPost)
-        })
-        .catch(err => {
-            console.log(err.message)
-        })
+        console.log("new post "+ post)
+        axios.post("http://localhost:3030/api/v1/posts", post)
+            .then(reponse => {
+                // need a flag
+                changeFetchFlag();
+            })
+            .catch(err => {
+                console.log(err.message)
+            })
     }
     return (
         <div className="AddPost">
-
             <h1>Add a Post</h1>
+            <form ref={newPostForm}>
+                <label>Title</label>
+                <input type="text" label={'title'} name={'title'} />
 
-            <label>Title</label>
-            <input type="text"
-                label={'title'}
-                name={'title'}
-                onChange={onChange}
-                
-            />
+                <label>Author</label>
+                <input type="text" label={'author'} name={'author'} />
 
-            <label>Author</label>
-            <input type="text"
-                label={'author'}
-                name={'author'}
-                onChange={onChange}
-                
-            />
+                <label>Content</label>
+                <input type="text" label={'content'} name={'content'} />
+                <button onClick={addPostHandler}>Add Post </button>
 
-            <label>Content</label>
-            <input type="text"
-                label={'content'}
-                name={'content'}
-                onChange={onChange}
-                
-            />
+            </form>
+            
 
-            <button onClick={addPostHandler}>Add Post </button>
         </div>
     );
 
